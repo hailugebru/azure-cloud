@@ -16,8 +16,8 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '66c1484f-2941-460a-bce3-5a8d6867f8b3'
-  imageRepository: 'petstoreorderservice'
+  dockerRegistryServiceConnection: 'hailusazurepetstorecr-5593'
+  imageRepository: 'hailugebruazurecloud'
   containerRegistry: 'hailusazurepetstorecr.azurecr.io'
   dockerfilePath: 'petstore/petstorepetservice/Dockerfile'
   tag: '$(Build.BuildId)'
