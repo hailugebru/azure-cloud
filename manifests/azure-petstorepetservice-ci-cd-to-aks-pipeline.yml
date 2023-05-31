@@ -16,12 +16,12 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'demo_ACR'
-  imageRepository: 'hailugebruazurecloud'
+  dockerRegistryServiceConnection: '9051590e-7d67-4f56-b13e-fafbc1725b4a'
+  imageRepository: 'hailugebrupipelinesjavascriptdocker'
   containerRegistry: 'hailusazurepetstorecr.azurecr.io'
-  dockerfilePath: 'petstore/petstorepetservice/Dockerfile'
+  dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
-  imagePullSecret: '$(crImagePullSecretGlobal)'
+  imagePullSecret: 'hailusazurepetstorecr4427f2c9-auth'
   
 stages:
 - stage: Build
@@ -65,7 +65,6 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-          latest
           
     - upload: manifests
       artifact: manifests
@@ -79,17 +78,21 @@ stages:
     displayName: Deploy App
     pool:
       vmImage: 'ubuntu-latest'
-    environment: 'Development'
+    environment: 'Development.ingress-petstoreservices'
     strategy:
       runOnce:
         deploy:
           steps:
           - task: KubernetesManifest@0
+            displayName: Create imagePullSecret
+            inputs:
+              action: createSecret
+              secretName: $(imagePullSecret)
+              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+          - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
             inputs:
               action: deploy
-              kubernetesServiceConnection: aks-service-connection-5302023
-              namespace: ingress-petstoreservices
               manifests: |
                 $(Pipeline.Workspace)/manifests/petstorepetservice-deployment-everything-enabled.yml
                 $(Pipeline.Workspace)/manifests/petstorepetservice-service-everything-enabled.yml
