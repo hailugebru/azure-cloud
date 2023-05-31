@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: hailugebruazurecloud 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hailugebruazurecloud
+  template:
+    metadata:
+      labels:
+        app: hailugebruazurecloud 
+    spec:
+      containers:
+        - name: hailugebruazurecloud 
+          image: hailusazurepetstorecr.azurecr.io/hailugebruazurecloud
+          ports:
+          - containerPort: 80
