@@ -19,7 +19,7 @@ variables:
   dockerRegistryServiceConnection: '9051590e-7d67-4f56-b13e-fafbc1725b4a'
   imageRepository: 'hailugebrupipelinesjavascriptdocker'
   containerRegistry: 'hailusazurepetstorecr.azurecr.io'
-  dockerfilePath: '**/Dockerfile'
+  dockerfilePath: 'petstore/petstoreorderservice/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'hailusazurepetstorecr4427f2c9-auth'
   
